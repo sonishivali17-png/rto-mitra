@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.875rem;
+
+    --brand-1: 221 83% 53%;
+    --brand-2: 217 91% 60%;
+    --brand-3: 199 89% 48%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection { @apply bg-primary/15 text-primary-700; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { @apply rounded-full bg-slate-200; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-slate-300; }
+
+  /* Visible focus ring for keyboard navigation only */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* iOS momentum scrolling on horizontal scrollers */
+  .scroll-momentum { -webkit-overflow-scrolling: touch; }
+
+  /* Make sure tap targets stay readable on small phones */
+  button, a { -webkit-tap-highlight-color: transparent; }
+}
+
+/* Respect prefers-reduced-motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .marquee-track { animation: none !important; }
+  .animate-pulse-ring,
+  .animate-float-slow { animation: none !important; }
+}
+
+@layer components {
+  .container-prose { @apply mx-auto max-w-3xl px-4; }
+
+  .gradient-text {
+    background: linear-gradient(120deg, hsl(var(--brand-1)), hsl(var(--brand-2)) 50%, hsl(var(--brand-3)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .ring-soft {
+    box-shadow:
+      0 1px 0 0 rgba(15,23,42,0.04),
+      0 1px 2px 0 rgba(15,23,42,0.04),
+      0 8px 24px -8px rgba(15,23,42,0.08);
+  }
+  .ring-glow {
+    box-shadow:
+      0 0 0 1px rgba(37,99,235,0.18),
+      0 18px 40px -16px rgba(37,99,235,0.35);
+  }
+
+  .card-elevated {
+    @apply rounded-2xl border bg-white p-6 ring-soft transition;
+  }
+  /* hover effects only on devices that actually hover (avoids "stuck" mobile hover) */
+  @media (hover: hover) {
+    .card-elevated:hover { @apply -translate-y-0.5 shadow-lg; }
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border bg-white/80 px-3 py-1 text-xs font-medium text-slate-700 backdrop-blur;
+  }
+
+  .mesh-bg {
+    background:
+      radial-gradient(60% 60% at 10% 10%, rgba(59,130,246,0.18) 0%, transparent 60%),
+      radial-gradient(50% 50% at 90% 0%,  rgba(14,165,233,0.18) 0%, transparent 60%),
+      radial-gradient(60% 60% at 50% 100%,rgba(16,185,129,0.10) 0%, transparent 60%),
+      linear-gradient(180deg, #ffffff 0%, #f6f8ff 100%);
+  }
+
+  .dots-bg {
+    background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  .grad-border {
+    position: relative;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(37,99,235,0.7), rgba(14,165,233,0.6));
+    padding: 1px;
+  }
+  .grad-border > * { border-radius: 21px; background: white; }
+
+  .prose-rto p { @apply leading-relaxed text-slate-700; }
+  .prose-rto h2 { @apply mt-10 text-2xl font-bold tracking-tight text-slate-900; }
+  .prose-rto h3 { @apply mt-6 text-xl font-semibold text-slate-900; }
+  .prose-rto ul { @apply my-4 list-disc space-y-1 pl-6 text-slate-700; }
+  .prose-rto ol { @apply my-4 list-decimal space-y-1 pl-6 text-slate-700; }
+  .prose-rto a { @apply text-primary-600 underline-offset-2 hover:underline; }
+  .prose-rto code { @apply rounded bg-slate-100 px-1 py-0.5 text-[0.85em] text-slate-800; }
+
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 28s linear infinite;
+    min-width: 200%;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { scrollbar-width: none; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(37,99,235,0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(37,99,235,0); }
+  100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+}
+
+.animate-float-slow { animation: float-slow 5s ease-in-out infinite; }
+.animate-pulse-ring { animation: pulse-ring 2.2s cubic-bezier(0.4,0,0.6,1) infinite; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
