@@ -40,11 +40,11 @@ export function Reveal({
   }, [delay]);
 
   return (
-    <Tag
+    <div
       ref={ref as any}
       className={cn("reveal", shown && "is-visible", className)}
     >
       {children}
-    </Tag>
+    </div>
   );
 }
