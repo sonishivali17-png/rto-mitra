@@ -21,7 +21,7 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       // Single 192 source (Next OG renders dynamically). Browsers / installers
       // will up-scale where needed.
-      { src: "/icon", sizes: "192x192", type: "image/png", purpose: "any maskable" },
+      { src: "/icon", sizes: "192x192", type: "image/png", purpose: "any" },
       { src: "/apple-icon", sizes: "180x180", type: "image/png", purpose: "any" },
     ],
   };
